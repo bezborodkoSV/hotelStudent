@@ -2,12 +2,13 @@ package com.studenthoteltest.demo.dao.repository;
 
 import com.studenthoteltest.demo.dao.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface UserRepository extends JpaRepository<User,Long> {
+@Repository
+public interface UserRepository extends CrudRepository<User,Long> {
 
-    List<User> findAllByName(String name);
-
-    List<User> findAllBySurname(String surname);
+List<User>findBySurname(String surname);
 }
