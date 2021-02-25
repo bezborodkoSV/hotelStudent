@@ -1,0 +1,25 @@
+<html>
+<body>
+<div>Hello, user</div>
+<a href="/main">Main page</a>
+<form action="/logout" method="post">
+    <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+    <input type="submit" value="Sign Out"/>
+</form>
+<!---->
+<div>Список жителей</div>
+    {{#residents}}
+        <div>
+            <b>{{id}}</b>
+            <b>{{name}}</b>
+            <b>{{surname}}</b>
+            <b>{{lastname}}</b>
+            <b>{{faculty}}</b>
+            <b>{{groupIn}}</b>
+            <b>{{phoneNumber}}</b>
+            <b>{{registration}}</b>
+        </div>
+    {{/residents}}
+
+</body>
+</html>

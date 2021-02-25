@@ -5,41 +5,81 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Setter
 @Getter
+//shows that this is an entity that needs to be stored in the database
 @Entity
-@Table(name = "applicationsForAccommodation")
+
+@Table(name = "applications_for_accommodation")
 public class ApplicationsForAccommodation {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-
-    //Id Users
-
-    @Column
+    @Column(name = "nameSurnameLastname")
     private String nameSurnameLastname;
-    @Column
+    @Column(name = "faculty")
     private String faculty;
-    @Column
-    private String group;
-    @Column
+    @Column(name = "groupIn")
+    private String groupIn;
+    @Column(name = "phoneNumber")
     private int phoneNumber;
     //create column fo date
-    //    @Column
-    //    private x creationDate;
-    //create column for IDRooms
-
     @Column
+    private Date creationDate;
+
+    @Column(name = "status")
     private String status;
     //create column for date
-//    @Column
-//    private x dateOfChange;
+    @Column
+    private Date dateOfChange;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Users users;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "rooms_id")
+    private Rooms rooms;
+
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @MapsId
+//    @JoinColumn(name = "users_id")
+//    private Users user;
 
 
-    public ApplicationsForAccommodation() {
-    }
-    //constructor for oll params
 
-    //toString
+
+
+
+
+
+
+
+
+
+
+
+
+
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @MapsId
+//    @JoinColumn(name = "user_login_id")
+//    private Users user;
+//    //true
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @MapsId
+//    @JoinColumn(name="rooms_id")
+//    private Rooms rooms;
+
+    //Constructor start
+
+
+
+
+
+//Constructor finish
+    //Other
+
+
 }
