@@ -40,25 +40,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .permitAll();
     }
 
-    @Bean
+//    @Bean
+//    @Override
+//    public UserDetailsService userDetailsService() {
+//        UserDetails user =
+//                User.withDefaultPasswordEncoder()
+//                        .username("user")
+//                        .password("password")
+//                        .roles("USER")
+//                        .build();
+//
+//        return new InMemoryUserDetailsManager(user);
+//    }
+
     @Override
-    public UserDetailsService userDetailsService() {
-        UserDetails user =
-                User.withDefaultPasswordEncoder()
-                        .username("user")
-                        .password("password")
-                        .roles("USER")
-                        .build();
-
-        return new InMemoryUserDetailsManager(user);
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.jdbcAuthentication()
+                .dataSource(dataSource)
+                .passwordEncoder(NoOpPasswordEncoder.getInstance())
+                .usersByUsernameQuery("select username, password, active from users where username=?")
+                .authoritiesByUsernameQuery("select u.username, ur.roles from users u inner join users_role ur on u.id = ur.users_id where u.username=?");
     }
-
-////    @Override
-////    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-////        auth.jdbcAuthentication()
-////                .dataSource(dataSource)
-////                .passwordEncoder(NoOpPasswordEncoder.getInstance())
-////                .usersByUsernameQuery("select email, password from user_login where email=?")
-////                .authoritiesByUsernameQuery("select u.email, ur.roles from user_login u inner join user_role ur on u.id = ur.user_id where u.email=?");
-////    }
 }

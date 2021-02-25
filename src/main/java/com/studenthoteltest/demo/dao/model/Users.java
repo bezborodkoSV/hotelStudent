@@ -1,5 +1,6 @@
 package com.studenthoteltest.demo.dao.model;
 
+import com.studenthoteltest.demo.dao.model.other.Role;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,7 +20,7 @@ public class Users {
     private long id;
 
     @Column
-    private String email;
+    private String username;
     @Column
     private String password;
     @Column
@@ -36,6 +37,10 @@ public class Users {
 //    private ApplicationsForAccommodation applicationsForAccommodation;
 
 
+    @ElementCollection(targetClass = Role.class,fetch = FetchType.EAGER)
+    @CollectionTable(name = "users_role",joinColumns = @JoinColumn(name = "users_id"))
+    @Enumerated(EnumType.STRING)
+    private Set<Role>roles;
 
 
 
