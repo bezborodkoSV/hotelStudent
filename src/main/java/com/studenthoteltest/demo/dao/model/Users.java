@@ -1,10 +1,13 @@
 package com.studenthoteltest.demo.dao.model;
 
-import com.studenthoteltest.demo.dao.model.other.Role;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
+import java.util.Collection;
 import java.util.Set;
 
 
@@ -13,18 +16,24 @@ import java.util.Set;
 //shows that this is an entity that needs to be stored in the database
 @Entity
 @Table(name = "users")
-public class Users {
+public class Users implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column
+    @Size(min=2, message = "Не меньше 5 знаков")
     private String username;
     @Column
+    @Size(min = 5,message = "е меньше 5 знаков")
     private String password;
-    @Column
-    private boolean active;
+    @Transient
+    private String passwordConfirm;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @PrimaryKeyJoinColumn
+    private Set<Role> roles;
+
 
     @OneToOne(mappedBy = "users")
     private Residents residents;
@@ -32,46 +41,52 @@ public class Users {
     @OneToOne(mappedBy = "users",cascade = CascadeType.ALL)
     private ApplicationsForAccommodation applicationsForAccommodation;
 
-//    @OneToOne(mappedBy = "users",cascade = CascadeType.ALL)
-//    @PrimaryKeyJoinColumn
-//    private ApplicationsForAccommodation applicationsForAccommodation;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 
 
-    @ElementCollection(targetClass = Role.class,fetch = FetchType.EAGER)
-    @CollectionTable(name = "users_role",joinColumns = @JoinColumn(name = "users_id"))
-    @Enumerated(EnumType.STRING)
-    private Set<Role>roles;
+//Constructor start
 
-
-
-
-
-
-//    private boolean active;
-
-//    @ElementCollection(targetClass = Role.class,fetch = FetchType.EAGER)
-//    @CollectionTable(name = "user_role",joinColumns = @JoinColumn(name = "user_id"))
-//    @Enumerated(EnumType.STRING)
-//    private Set<Role> roles;
-
-
-//    @OneToOne(mappedBy = "users",cascade = CascadeType.ALL)
-//    @PrimaryKeyJoinColumn
-//    private Residents residents;
-//    @OneToOne(mappedBy = "user_login",cascade = CascadeType.ALL)
-//    @PrimaryKeyJoinColumn
-//    private Residents residents;
-
-
-
-    //Constructor start
-
-
+    public Users() {
+    }
 
 
     //Constructor finish
     //Other
 
 
-
+    @Override
+    public String toString() {
+        return "Users{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", passwordConfirm='" + passwordConfirm + '\'' +
+                ", roles=" + roles +
+                ", residents=" + residents +
+                ", applicationsForAccommodation=" + applicationsForAccommodation +
+                '}';
+    }
 }

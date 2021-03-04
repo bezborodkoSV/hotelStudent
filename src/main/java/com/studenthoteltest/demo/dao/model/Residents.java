@@ -37,11 +37,11 @@ public class Residents {
 
 @OneToOne(cascade = CascadeType.ALL)
 @JoinColumn(name = "users_id")
-    private Users users;
+    private com.studenthoteltest.demo.dao.model.Users users;
 
 @ManyToOne(cascade = CascadeType.ALL)
 @JoinColumn(name = "rooms_id")
-private Rooms rooms;
+private com.studenthoteltest.demo.dao.model.Rooms rooms;
 
 
 
