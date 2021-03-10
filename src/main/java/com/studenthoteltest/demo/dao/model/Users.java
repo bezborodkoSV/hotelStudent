@@ -23,19 +23,22 @@ public class Users implements UserDetails {
     private long id;
 
     @Column
-    @Size(min=2, message = "Не меньше 5 знаков")
+    @Size(min=5, message = "Не меньше 5 знаков")
     private String username;
+
     @Column
-    @Size(min = 5,message = "е меньше 5 знаков")
+    @Size(min = 5,message = "Не меньше 5 знаков")
     private String password;
+
     @Transient
     private String passwordConfirm;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @PrimaryKeyJoinColumn
     private Set<Role> roles;
 
 
-    @OneToOne(mappedBy = "users")
+    @OneToOne(mappedBy = "users",cascade = CascadeType.ALL)
     private Residents residents;
 
     @OneToOne(mappedBy = "users",cascade = CascadeType.ALL)
@@ -43,7 +46,7 @@ public class Users implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return getRoles();
     }
 
     @Override
@@ -73,7 +76,8 @@ public class Users implements UserDetails {
     }
 
 
-    //Constructor finish
+
+//Constructor finish
     //Other
 
 

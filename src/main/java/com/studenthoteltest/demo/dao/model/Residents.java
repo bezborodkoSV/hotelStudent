@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Getter
@@ -26,7 +27,7 @@ public class Residents {
     private String faculty;
     @Column(name = "groupIn")
     private String groupIn;
-    @Column
+    @Column(unique = true)
     private String phoneNumber;
     @Column
     private String registration;
@@ -37,19 +38,27 @@ public class Residents {
 
 @OneToOne(cascade = CascadeType.ALL)
 @JoinColumn(name = "users_id")
-    private com.studenthoteltest.demo.dao.model.Users users;
+    private Users users;
 
 @ManyToOne(cascade = CascadeType.ALL)
 @JoinColumn(name = "rooms_id")
-private com.studenthoteltest.demo.dao.model.Rooms rooms;
+private Rooms rooms;
 
+    public Residents() {
+    }
 
-
-
-
-
-
-////true
+    public Residents(long id, String name, @Size(min = 3, message = "") String surname, String lastname, @Size(min = 3, message = "") String faculty, @Size(min = 10, message = "") String groupIn, @Size(min = 10, max = 10) String phoneNumber, String registration, Users users) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.lastname = lastname;
+        this.faculty = faculty;
+        this.groupIn = groupIn;
+        this.phoneNumber = phoneNumber;
+        this.registration = registration;
+        this.users = users;
+    }
+    ////true
 //    @OneToOne(cascade = CascadeType.ALL)
 //    @MapsId
 //    @JoinColumn(name = "users_id")

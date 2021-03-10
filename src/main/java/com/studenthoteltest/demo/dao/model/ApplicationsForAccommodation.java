@@ -36,11 +36,11 @@ public class ApplicationsForAccommodation {
     private Date dateOfChange;
 
     @OneToOne(cascade = CascadeType.ALL)
-    private com.studenthoteltest.demo.dao.model.Users users;
+    private Users users;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "rooms_id")
-    private com.studenthoteltest.demo.dao.model.Rooms rooms;
+    private Rooms rooms;
 
 //    @OneToOne(cascade = CascadeType.ALL)
 //    @MapsId

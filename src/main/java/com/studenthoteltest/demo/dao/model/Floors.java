@@ -32,7 +32,7 @@ public class Floors {
     public Floors() {
     }
 
-    public Floors(short numberFloor, int numberOfRoomsPerFloor, int numberOfFreeRoomsOnTheFloor, Set<com.studenthoteltest.demo.dao.model.Rooms> rooms) {
+    public Floors(short numberFloor, int numberOfRoomsPerFloor, int numberOfFreeRoomsOnTheFloor, Set<Rooms> rooms) {
         this.numberFloor = numberFloor;
         this.numberOfRoomsPerFloor = numberOfRoomsPerFloor;
         this.numberOfFreeRoomsOnTheFloor = numberOfFreeRoomsOnTheFloor;

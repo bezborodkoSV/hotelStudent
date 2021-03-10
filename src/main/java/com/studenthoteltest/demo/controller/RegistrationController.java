@@ -1,6 +1,7 @@
 package com.studenthoteltest.demo.controller;
 
 
+import com.studenthoteltest.demo.dao.model.Residents;
 import com.studenthoteltest.demo.dao.model.Users;
 import com.studenthoteltest.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Controller
 public class RegistrationController {
@@ -22,12 +24,14 @@ public class RegistrationController {
     @GetMapping("/registration")
     public String registration(Model model) {
         model.addAttribute("userForm", new Users());
-
         return "registration";
     }
 
+
+//    User registration
     @PostMapping("/registration")
-    public String addUser(@ModelAttribute ("userForm") @Valid Users userForm, BindingResult bindingResult, Model model){
+    public String addUser(@Valid @ModelAttribute ("userForm") Users userForm,
+                          BindingResult bindingResult, Model model) throws Exception{
 
         if(bindingResult.hasErrors()){
             return "registration";
@@ -43,5 +47,39 @@ public class RegistrationController {
         userService.saveUser(userForm);
         return "redirect:/";
     }
+    //      User registration
+
+
+
+
+//    Resident add
+
+    @GetMapping("/residentAdd")
+    public String resident(Model model, Principal principal) {
+        model.addAttribute("residentForm", new Residents());
+        if(!userService.checkResidentsByUser(principal.getName())){
+            return "redirect:/";
+        }
+
+        return "residentAdd";
+    }
+
+
+@PostMapping("residentAdd")
+    public String residentAdd(@ModelAttribute("residentForm")@Valid Residents residentForm,
+                              BindingResult bindingResult, Model model,
+                              Principal principal){
+
+    if(bindingResult.hasErrors()){
+        return "residentAdd";
+    }
+    if (!userService.saveResident(residentForm, principal.getName())){
+        model.addAttribute("residentError","Такой пользователь уже существует");
+        return "residentAdd";
+    }
+    userService.saveResident(residentForm, principal.getName());
+        return "redirect:/";
+}
+//Resident add
 
 }
