@@ -41,7 +41,7 @@ public class Users implements UserDetails {
     @OneToOne(mappedBy = "users",cascade = CascadeType.ALL)
     private Residents residents;
 
-    @OneToOne(mappedBy = "users",cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "users")
     private ApplicationsForAccommodation applicationsForAccommodation;
 
     @Override

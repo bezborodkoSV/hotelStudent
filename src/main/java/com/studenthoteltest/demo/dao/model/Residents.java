@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Getter
@@ -47,8 +46,8 @@ private Rooms rooms;
     public Residents() {
     }
 
-    public Residents(long id, String name, @Size(min = 3, message = "") String surname, String lastname, @Size(min = 3, message = "") String faculty, @Size(min = 10, message = "") String groupIn, @Size(min = 10, max = 10) String phoneNumber, String registration, Users users) {
-        this.id = id;
+
+    public Residents(String name, String surname, String lastname, String faculty, String groupIn, String phoneNumber, String registration, Users users) {
         this.name = name;
         this.surname = surname;
         this.lastname = lastname;
@@ -58,6 +57,7 @@ private Rooms rooms;
         this.registration = registration;
         this.users = users;
     }
+
     ////true
 //    @OneToOne(cascade = CascadeType.ALL)
 //    @MapsId

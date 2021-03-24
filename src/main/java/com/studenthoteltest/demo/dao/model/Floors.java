@@ -24,7 +24,7 @@ public class Floors {
     private int numberOfFreeRoomsOnTheFloor;
 
     //true
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "floors")
+    @OneToMany(mappedBy = "floors")
     private Set<Rooms> rooms;
 
     //Constructor start

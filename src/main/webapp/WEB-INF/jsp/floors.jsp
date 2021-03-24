@@ -11,11 +11,11 @@
 
 <body>
 <div>
-
+    ${forAdmin}
 <form:form method="post" modelAttribute="floorAdd">
-    <h2>Регистрация Пользователя</h2>
+    <h2>Додавання поверхів</h2>
     <div>
-    <form:input type="number" min="1" max="20" path="numberFloor" placeholder="Номер этажа"></form:input>
+    <form:input type="number" min="1" path="numberFloor" placeholder="Номер этажа"></form:input>
     <form:errors path="numberFloor"></form:errors>
             ${floorError}
     </div>
@@ -42,12 +42,19 @@
                         <td>${floors.numberFloor}</td>
                         <td>${floors.numberOfRoomsPerFloor}</td>
                         <td>${floors.numberOfFreeRoomsOnTheFloor}</td>
+                        <td>
+                            <form action="${pageContext.request.contextPath}/floorDelete" method="post">
+                                <input type="hidden" name="floorId" value="${floors.id}"/>
+                                <input type="hidden" name="action" value="delete"/>
+                                <button type="submit">Delete</button>
+                            </form>
+                        </td>
                     </tr>
                 </c:forEach>
             </table>
             </div>
     <a href="/">Главная</a>
-    <a href="/floorDelete">Delete Floor</a>
+    <a href="/admin">Back</a>
 </div>
 </body>
 </html>

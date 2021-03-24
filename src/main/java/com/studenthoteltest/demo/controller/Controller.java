@@ -1,23 +1,28 @@
 package com.studenthoteltest.demo.controller;
 
-import com.studenthoteltest.demo.service.UserService;
+import com.studenthoteltest.demo.service.FloorsService;
+import com.studenthoteltest.demo.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @org.springframework.stereotype.Controller
 public class Controller {
     @Autowired
-    private UserService userService;
-//    @Autowired
-//    private ResidentsRepository residentsRepository;
+    private FloorsService floorsService;
+    @Autowired
+    private RoomService roomService;
 
-//    @GetMapping("/")
-//    public String first(Map<String,Object>model){
-//        return "index";
-//    }
+    @GetMapping("/")
+    public String index(){
+//        Map<String,Object>model
+        return "redirect:/first";
+    }
 
-//
-//    @GetMapping("/main")
-//    public String main(Map<String,Object>model){
-//        return "main";
-//    }
+    @GetMapping("/first")
+    public String first(Model model){
+        model.addAttribute("freeRoomForAll",roomService.roomFreeList());
+        return "first";
+    }
+
 }

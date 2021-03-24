@@ -29,6 +29,29 @@
             <form:errors path="password"></form:errors>
                 ${passwordError}
         </div>
+            <h2>Личные данные</h2>
+            <div>
+                <input type="text" name="name" placeholder="Имя">
+            </div>
+            <div>
+                <input type="text" name="lastname" placeholder="Отчество">
+            </div>
+            <div>
+                <input type="text" name="surname" placeholder="Фамилия">
+            </div>
+            <div>
+                <input type="text" name="faculty" placeholder="Факультет">
+            </div>
+            <div>
+                <input type="text" name="groupIn" placeholder="Группа">
+            </div>
+            <div>
+                <input type="text" name="phoneNumber" placeholder="Номер телефона">
+            </div>
+            <div>
+                <input type="text" name="registration" placeholder="Место регистрации">
+            </div>
+
             <button type="submit">Зарегистрироваться</button>
     </form:form>
     <a href="/">Главная</a>

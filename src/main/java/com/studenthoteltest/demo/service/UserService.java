@@ -34,6 +34,16 @@ public class UserService implements UserDetailsService {
     private ResidentsRepository residentsRepository;
 
 //Resident method
+
+    public List<Residents> allResidents() {
+        return residentsRepository.findAll();
+    }
+
+    public List<Residents> ResidentList(Long idMin) {
+        return em.createQuery("SELECT r FROM Residents r WHERE r.id > :paramId", Residents.class)
+                .setParameter("paramId", idMin).getResultList();
+    }
+
     public boolean checkResidentsByUser(String name){
         Users user = userRepository.findByUsername(name);
         Residents residentFromDb = residentsRepository.findByUsers(user);
@@ -43,14 +53,17 @@ public class UserService implements UserDetailsService {
         return true;
     }
 
-    public boolean saveResident(Residents resident,String name){
-        Users user =userRepository.findByUsername(name);
-        Residents residentFromDb = residentsRepository.findByPhoneNumberOrUsers(resident.getPhoneNumber(),user);
+
+    public boolean saveResident(String name,String lastname,String surname,
+                                String faculty,String groupIn,String phoneNumber,
+                                String registration,String username){
+        Users user =userRepository.findByUsername(username);
+        Residents residentFromDb = residentsRepository.findByPhoneNumber(phoneNumber);
         if(residentFromDb!=null){
             return false;
         }
 
-        resident.setUsers(user);
+        Residents resident=new Residents(name,surname,lastname,faculty,groupIn,phoneNumber,registration,user);
         residentsRepository.save(resident);
         return true;
     }
@@ -77,7 +90,6 @@ public class UserService implements UserDetailsService {
         user.setRoles(Collections.singleton(new Role(1L, "ROLE_USER")));
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
-
         return true;
     }
 
@@ -93,7 +105,6 @@ public class UserService implements UserDetailsService {
     public boolean deleteUser(Long userId) {
         if (userRepository.findById(userId).isPresent()) {
             userRepository.deleteById(userId);
-//            residentsRepository.deleteById(userId);
             return true;
         }
         return false;
@@ -103,6 +114,8 @@ public class UserService implements UserDetailsService {
         return em.createQuery("SELECT u FROM Users u WHERE u.id > :paramId", Users.class)
                 .setParameter("paramId", idMin).getResultList();
     }
+
+
 
 
 }

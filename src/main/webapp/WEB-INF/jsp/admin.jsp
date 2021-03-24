@@ -14,22 +14,28 @@
 <div>
     <table>
         <thead>
-        <th>ID</th>
         <th>UserName</th>
-        <th>Password</th>
-        <th>Roles</th>
+        <th>Прізвище</th>
+        <th>Ім'я</th>
+        <th>По батькові</th>
+        <th>Факультет</th>
+        <th>Група</th>
+        <th>Номер телефону</th>
+        <th>Місце регістрації</th>
         </thead>
-        <c:forEach items="${allUsers}" var="users">
+        <c:forEach items="${allResidents}" var="residents">
             <tr>
-                <td>${users.id}</td>
-                <td>${users.username}</td>
-                <td>${users.password}</td>
-                <td>
-                    <c:forEach items="${users.roles}" var="role">${role.name}; </c:forEach>
-                </td>
+                <td>${residents.users.username}</td>
+                <td>${residents.surname}</td>
+                <td>${residents.name}</td>
+                <td>${residents.lastname}</td>
+                <td>${residents.faculty}</td>
+                <td>${residents.groupIn}</td>
+                <td>${residents.phoneNumber}</td>
+                <td>${residents.registration}</td>
                 <td>
                     <form action="${pageContext.request.contextPath}/admin" method="post">
-                        <input type="hidden" name="userId" value="${users.id}"/>
+                        <input type="hidden" name="residentUserId" value="${residents.users.id}"/>
                         <input type="hidden" name="action" value="delete"/>
                         <button type="submit">Delete</button>
                     </form>

@@ -24,8 +24,9 @@ public class ApplicationsForAccommodation {
     @Column(name = "groupIn")
     private String groupIn;
     @Column(name = "phoneNumber")
-    private int phoneNumber;
+    private String phoneNumber;
     //create column fo date
+//    @Temporal(TemporalType.TIMESTAMP)
     @Column
     private Date creationDate;
 
@@ -35,10 +36,11 @@ public class ApplicationsForAccommodation {
     @Column
     private Date dateOfChange;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
+    @JoinColumn(name = "users_id")
     private Users users;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "rooms_id")
     private Rooms rooms;
 

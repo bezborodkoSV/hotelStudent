@@ -32,16 +32,18 @@ public class Rooms {
 //    private Set<Residents> residents;
 
     @OneToMany(mappedBy = "rooms")
+    @PrimaryKeyJoinColumn
     private Set<Residents> residents;
 
     //true
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @PrimaryKeyJoinColumn
     @JoinColumn(name = "floor_id")
     private Floors floors;
     //true
 
     @OneToOne(mappedBy = "rooms")
+    @PrimaryKeyJoinColumn
     private ApplicationsForAccommodation applicationsForAccommodation;
 
 //    @OneToOne(mappedBy = "rooms")

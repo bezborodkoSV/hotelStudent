@@ -5,8 +5,11 @@ import com.studenthoteltest.demo.dao.model.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ResidentsRepository extends JpaRepository<Residents,Long> {
     Residents findByUsers(Users users);
-    Residents findByPhoneNumberOrUsers(String phoneNumber, Users users);
+    Residents findByPhoneNumber(String phoneNumber);
+    List<Residents> findResidentsByRooms_Id(long roomId);
 }

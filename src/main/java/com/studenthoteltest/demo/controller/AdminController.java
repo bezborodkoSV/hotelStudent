@@ -19,23 +19,25 @@ public class AdminController {
 
     @GetMapping("/admin")
     private String userList(Model model) {
-       model.addAttribute("allUsers", userService.allUsers());
+       model.addAttribute("allResidents", userService.allResidents());
         return "admin";
     }
 
     @PostMapping("/admin")
-    private String  deleteUser(@RequestParam(required = true, defaultValue = "" ) Long userId,
+    private String  deleteUser(@RequestParam(required = true, defaultValue = "" ) Long residentUserId,
                               @RequestParam(required = true, defaultValue = "" ) String action,
                               Model model) {
         if (action.equals("delete")){
-            userService.deleteUser(userId);
+            userService.deleteUser(residentUserId);
+
         }
         return "redirect:/admin";
     }
 
-    @GetMapping("/admin/gt/{userId}")
-    private String  gtUser(@PathVariable("userId") Long userId, Model model) {
-        model.addAttribute("allUsers", userService.userList(userId));
+
+    @GetMapping("/admin/gt/{residentId}")
+    private String  gtUser(@PathVariable("residentId") Long residentId, Model model) {
+        model.addAttribute("allResidents", userService.userList(residentId));
         return "admin";
     }
 
