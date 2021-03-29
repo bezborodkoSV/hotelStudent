@@ -15,6 +15,8 @@ import java.util.List;
 public class FloorsService {
 
     @Autowired
+    private RoomService roomService;
+    @Autowired
     private FloorsRepository floorsRepository;
     @Autowired
     private RoomsRepository roomsRepository;
@@ -49,12 +51,24 @@ public class FloorsService {
         return false;
     }
 
+//    Query
     public List<Floors> florList(Long idMin) {
         return em.createQuery("SELECT f FROM Floors f WHERE f.id > :paramId", Floors.class)
                 .setParameter("paramId", idMin).getResultList();
     }
+//    Query
 
 
+    //automatically fills in the number of free rooms on the floor
+    public boolean checkFreeRooms(){
+        List<Floors> floorsList = floorsRepository.findAll();
+        for (Floors floors:floorsList) {
+            Floors floor = floorsRepository.findById(floors.getId()).get();
+            floor.setNumberOfFreeRoomsOnTheFloor(floor.getNumberOfRoomsPerFloor()-roomService.roomFoolPlaceList().size());
+            floorsRepository.save(floor);
+        }
+        return true;
+    }
 
 
 }

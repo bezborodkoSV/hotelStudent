@@ -48,7 +48,7 @@
                         <td>
 
                                 <%--                        Форма для Комнаты по текущему Id в строке--%>
-                            <form action="${pageContext.request.contextPath}/applicationsDeflect" method="post">
+                            <form action="${pageContext.request.contextPath}/applications" method="post">
                                 <form:form>
                                 <input type="hidden" name="applicationId" value="${applications.id}"/>
                                 <input type="hidden" name="action" value="deflect"/>
@@ -64,6 +64,37 @@
                     </tr>
                 </c:forEach>
             </table>
+
+<table>
+            <h2>Прийнято</h2>
+            <thead>
+            <th>Користувач</th>
+            <th>ФІО</th>
+            <th>Факультет</th>
+            <th>Група</th>
+            <th>Номер телефону</th>
+            <th>Номер кімн.</th>
+            <th>Дата подання</th>
+            <th>Дата відхилення</th>
+            <th>Статус</th>
+            </thead>
+            ${forAdminMessage}
+            <c:forEach items="${acceptApplications}" var="applications">
+                <tr>
+                    <td>${applications.users.username}</td>
+                    <td>${applications.nameSurnameLastname}</td>
+                    <td>${applications.faculty}</td>
+                    <td>${applications.groupIn}</td>
+                    <td>${applications.phoneNumber}</td>
+                    <td>${applications.rooms.numberRoom}</td>
+                    <td>${applications.creationDate}</td>
+                    <td>${applications.dateOfChange}</td>
+                    <td>${applications.status}</td>
+
+                </tr>
+            </c:forEach>
+            </table>
+
 
 
 <table>

@@ -59,8 +59,13 @@ public class ApplicationsForAccommodationService {
                 .getResultList();
     }
 
-    public List<ApplicationsForAccommodation> deflectApplicationList() {
+    public List<ApplicationsForAccommodation> acceptApplicationList() {
         return em.createQuery("SELECT a FROM ApplicationsForAccommodation a WHERE  a.status ='accept' ", ApplicationsForAccommodation.class)
+                .getResultList();
+    }
+
+    public List<ApplicationsForAccommodation> deflectApplicationList() {
+        return em.createQuery("SELECT a FROM ApplicationsForAccommodation a WHERE  a.status ='deflect' ", ApplicationsForAccommodation.class)
                 .getResultList();
     }
 

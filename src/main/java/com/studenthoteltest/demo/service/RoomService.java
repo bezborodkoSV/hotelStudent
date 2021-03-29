@@ -42,6 +42,7 @@ public class RoomService {
         return em.createQuery("SELECT r FROM Rooms r WHERE r.id > :paramId", Rooms.class)
                 .setParameter("paramId", idMin).getResultList();
     }
+
     public boolean deleteRoom(Long roomId){
         if (residentsRepository.findResidentsByRooms_Id(roomId).size()>0){
             return false;
@@ -69,12 +70,34 @@ public class RoomService {
 //        return false;
 //    }
 
+//    give us list where room have free places
     public List<Rooms> roomFreeList() {
         return em.createQuery("SELECT r FROM Rooms r WHERE r.numberOfFreePlacesInTheRoom > 0 order by r.numberRoom", Rooms.class)
                 .getResultList();
     }
 
+    //    give us list where room have free places
+    public List<Rooms> roomFoolPlaceList() {
+        return em.createQuery("SELECT r FROM Rooms r WHERE r.numberOfFreePlacesInTheRoom > r.numberOfSeatsInTheRoom order by r.numberRoom", Rooms.class)
+                .getResultList();
+    }
 
 
+//    automatic check of the number of free places in the room
+public boolean checkTheNumberOfFreeSeats(){
+//        take all rooms
+        List<Rooms> roomsList = roomsRepository.findAll();
+//        foreach
+    for (Rooms o:roomsList) {
+//        take room from Db by Id(take from roomslist, object give us id this object)
+        Rooms room = roomsRepository.findById(o.getId()).get();
+//        put number of free place in room(all places in the room - size of the list people in this room)
+        room.setNumberOfFreePlacesInTheRoom((short) (o.getNumberOfSeatsInTheRoom()-residentsRepository.findResidentsByRooms_Id(o.getId()).size()));
+        System.out.println(o.getId()+" "+o.getNumberOfSeatsInTheRoom()+" "+residentsRepository.findResidentsByRooms_Id(o.getId()).size()+" "+o.getNumberOfFreePlacesInTheRoom());
+//        save change
+        roomsRepository.save(room);
+    }
+        return true;
+}
 
 }

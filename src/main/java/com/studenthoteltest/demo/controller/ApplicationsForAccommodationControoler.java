@@ -33,10 +33,10 @@ public class ApplicationsForAccommodationControoler {
             return "applicationsForAccommodation";
         }
 
-        if (!applicationsForAccommodationService.save(applicationsForAccommodation, principal.getName(), numberRoom)){
-
-            model.addAttribute("nameError","Вы превысили количество заявок(больше 3)");
-        }
+//        if (!applicationsForAccommodationService.save(applicationsForAccommodation, principal.getName(), numberRoom)){
+//
+//            model.addAttribute("nameError","Вы превысили количество заявок(больше 3)");
+//        }
         applicationsForAccommodationService.save(applicationsForAccommodation, principal.getName(), numberRoom);
 
         return "redirect:/news";
@@ -46,6 +46,7 @@ public class ApplicationsForAccommodationControoler {
     public String applications(Model model){
         model.addAttribute("unverifiedApplications", applicationsForAccommodationService.unverifiedApplicationList());
         model.addAttribute("deflectApplications",applicationsForAccommodationService.deflectApplicationList());
+        model.addAttribute("acceptApplications",applicationsForAccommodationService.acceptApplicationList());
         return "applications";
     }
 

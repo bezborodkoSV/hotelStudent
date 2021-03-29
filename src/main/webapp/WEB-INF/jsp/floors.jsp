@@ -22,9 +22,9 @@
     <div>
     <form:input type="number" min="1" path="numberOfRoomsPerFloor" placeholder="Количество комнат"></form:input>
     </div>
-    <div>
-    <form:input type="number" min="1" path="numberOfFreeRoomsOnTheFloor" placeholder="Кол. свободных комнат"></form:input>
-    </div>
+<%--    <div>--%>
+<%--    <form:input type="number" min="1" path="numberOfFreeRoomsOnTheFloor" placeholder="Кол. свободных комнат"></form:input>--%>
+<%--    </div>--%>
     <button type="submit" value="save">Сохранить</button>
     </form:form>
 <%--    <form:form method="post" modelAttribute="allFloorsForm">--%>

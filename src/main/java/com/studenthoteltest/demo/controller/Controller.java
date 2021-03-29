@@ -16,6 +16,8 @@ public class Controller {
     @GetMapping("/")
     public String index(){
 //        Map<String,Object>model
+        roomService.checkTheNumberOfFreeSeats();
+        floorsService.checkFreeRooms();
         return "redirect:/first";
     }
 

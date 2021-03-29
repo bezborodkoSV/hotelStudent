@@ -26,9 +26,9 @@
         <div>
             <form:input type="number" path="numberOfSeatsInTheRoom" placeholder="Количество мест"></form:input>
         </div>
-        <div>
-            <form:input type="number" path="numberOfFreePlacesInTheRoom" placeholder="Кол. свободных мест"></form:input>
-        </div>
+<%--        <div>--%>
+<%--            <form:input type="number" path="numberOfFreePlacesInTheRoom" placeholder="Кол. свободных мест"></form:input>--%>
+<%--        </div>--%>
             <div>
                 <form:input type="text" path="description" placeholder="Описание"></form:input>
             </div>

@@ -36,6 +36,7 @@ public class FloorsController {
             return "redirect:/floors";
         }
             floorsService.saveFloor(floor);
+        floorsService.checkFreeRooms();
         return "redirect:/floors";
     }
 

@@ -37,6 +37,7 @@ public class RoomController {
             return "room";
         }
         roomService.saveRoom(room,numberFloor);
+        roomService.checkTheNumberOfFreeSeats();
         return "redirect:/room";
     }
 
