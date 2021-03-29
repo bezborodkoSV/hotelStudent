@@ -35,6 +35,7 @@
                 <th>Номер этажа</th>
                 <th>Количество комнат</th>
                 <th>Кол. свободных комнат</th>
+                <th>rooms.size</th>
                 </thead>
                 <c:forEach items="${allFloors}" var="floors">
                     <tr>
@@ -42,6 +43,7 @@
                         <td>${floors.numberFloor}</td>
                         <td>${floors.numberOfRoomsPerFloor}</td>
                         <td>${floors.numberOfFreeRoomsOnTheFloor}</td>
+                        <td>${floors.rooms.size()}</td>
                         <td>
                             <form action="${pageContext.request.contextPath}/floorDelete" method="post">
                                 <input type="hidden" name="floorId" value="${floors.id}"/>

@@ -11,7 +11,7 @@
 
 <body>
 <div>
-
+    <h1>${numberOfApplicationsExceeded}</h1>
     <form:form method="post" modelAttribute="applicationsForAccommodationForm">
         <h2>Add applications</h2>
         <div>

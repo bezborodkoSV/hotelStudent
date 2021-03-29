@@ -46,8 +46,9 @@
             <th>ID</th>
             <th>Номер комнаты</th>
             <th>Количество мест</th>
-            <th>Кол. свободных мест</th>
+            <td>Кількість мешканців</td>
             <td>Описание</td>
+            <td>Заявки</td>
             <th>Этаж</th>
 
             </thead>
@@ -58,8 +59,11 @@
                     <td>${rooms.id}</td>
                     <td>${rooms.numberRoom}</td>
                     <td>${rooms.numberOfSeatsInTheRoom}</td>
-                    <td>${rooms.numberOfFreePlacesInTheRoom}</td>
+                    <td>${rooms.residents.size()}</td>
                     <td>${rooms.description}</td>
+<%--                 Исправить    --%>
+                    <td>${rooms.applicationsForAccommodation.nameSurnameLastname}</td>
+<%--                 Исправить    --%>
                     <td>${rooms.floors.numberFloor}</td>
                     <td>
 <%--            вывод таблицы комнат            --%>

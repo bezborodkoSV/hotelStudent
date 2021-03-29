@@ -46,6 +46,7 @@
     <a href="/">Главная</a>
     <a href="/floors">Этажи</a>
     <a href="/room">Комнаты</a>
+    <a href="/applications">Заявки</a>
 </div>
 </body>
 </html>
