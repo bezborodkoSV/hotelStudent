@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -26,16 +27,24 @@ public class ApplicationsForAccommodationService {
     @Autowired
     private RoomsRepository roomsRepository;
 
+    public boolean chekSeatAvailability(long numberRoom){
+        if(roomsRepository.findByNumberRoom(numberRoom).getNumberOfFreePlacesInTheRoom()>0){
+            return true;
+        }
+        return false;
+    }
+
+
     public boolean save(ApplicationsForAccommodation applicationsForAccommodation,
                         String username,
                         long numberRoom) {
+        List<ApplicationsForAccommodation>listApplicationsForAccommodations = applicationsForAccommodationRepository.findByUsers_Username(username);
+        if (listApplicationsForAccommodations.size()>=3){
+            return false;
+        }
         Rooms roomFromDb = roomsRepository.findByNumberRoom(numberRoom);
         Users userFromDb = userRepository.findByUsername(username);
         Date dateCreate = new Date();
-//        List<ApplicationsForAccommodation>listApplicationsForAccommodations = applicationsForAccommodationRepository.findByUsers(userFromDb.getId());
-//        if (listApplicationsForAccommodations.size()>=3){
-//            return false;
-//        }
         applicationsForAccommodation.setUsers(userFromDb);
         applicationsForAccommodation.setRooms(roomFromDb);
         applicationsForAccommodation.setCreationDate(dateCreate);
@@ -58,6 +67,14 @@ public class ApplicationsForAccommodationService {
         return em.createQuery("SELECT a FROM ApplicationsForAccommodation a WHERE  a.status is null", ApplicationsForAccommodation.class)
                 .getResultList();
     }
+
+
+//    for personalArea
+public List<ApplicationsForAccommodation> personalApplicationsList(String username) {
+    return em.createQuery("SELECT a FROM ApplicationsForAccommodation a WHERE  a.users.username =:userName", ApplicationsForAccommodation.class)
+            .setParameter("userName", username).getResultList();
+}
+//
 
     public List<ApplicationsForAccommodation> acceptApplicationList() {
         return em.createQuery("SELECT a FROM ApplicationsForAccommodation a WHERE  a.status ='accept' ", ApplicationsForAccommodation.class)

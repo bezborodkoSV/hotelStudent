@@ -2,6 +2,7 @@ package com.studenthoteltest.demo.controller;
 
 import com.studenthoteltest.demo.dao.model.ApplicationsForAccommodation;
 import com.studenthoteltest.demo.service.ApplicationsForAccommodationService;
+import com.studenthoteltest.demo.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,8 @@ import java.security.Principal;
 public class ApplicationsForAccommodationControoler {
     @Autowired
     private ApplicationsForAccommodationService applicationsForAccommodationService;
+    @Autowired
+    private RoomService roomService;
 
     @GetMapping("/applicationsForAccommodation")
     public String applicationsForAccommodation( Model model){
@@ -32,11 +35,18 @@ public class ApplicationsForAccommodationControoler {
         if(bindingResult.hasErrors()){
             return "applicationsForAccommodation";
         }
-
-//        if (!applicationsForAccommodationService.save(applicationsForAccommodation, principal.getName(), numberRoom)){
-//
-//            model.addAttribute("nameError","Вы превысили количество заявок(больше 3)");
-//        }
+        if (!roomService.presenceOfSuchRoom(numberRoom)){
+            model.addAttribute("roomError","Такої кімнати не існує");
+            return "applicationsForAccommodation";
+        }
+        if (!applicationsForAccommodationService.chekSeatAvailability(numberRoom)){
+            model.addAttribute("roomError","У кімнаті нема місць, перегляньте і виберіть іншу кімнату");
+            return "applicationsForAccommodation";
+        }
+        if (!applicationsForAccommodationService.save(applicationsForAccommodation,principal.getName(),numberRoom)){
+            model.addAttribute("applicationError","Ви перевищили кількість заявок (5 штук)");
+            return "applicationsForAccommodation";
+        }
         applicationsForAccommodationService.save(applicationsForAccommodation, principal.getName(), numberRoom);
 
         return "redirect:/news";

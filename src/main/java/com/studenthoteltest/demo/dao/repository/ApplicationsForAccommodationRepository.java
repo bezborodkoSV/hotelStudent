@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public interface ApplicationsForAccommodationRepository extends JpaRepository<ApplicationsForAccommodation,Long> {
-    List<ApplicationsForAccommodation> findByUsers(long id);
+    List<ApplicationsForAccommodation> findByUsers_Username(String username);
     List<ApplicationsForAccommodation> findByRooms_Id(long roomsId);
     ApplicationsForAccommodation findById(long applicationId);
 }

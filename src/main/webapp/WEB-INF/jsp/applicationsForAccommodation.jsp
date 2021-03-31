@@ -12,6 +12,7 @@
 <body>
 <div>
     <h1>${numberOfApplicationsExceeded}</h1>
+    ${applicationError}
     <form:form method="post" modelAttribute="applicationsForAccommodationForm">
         <h2>Add applications</h2>
         <div>
@@ -29,6 +30,7 @@
         <div>
             <form:input type="text" path="phoneNumber" placeholder="Номер телефона"></form:input>
         </div>
+        ${roomError}
         <div>
             <input type="number" name="numberRoom" placeholder="Номер комнаты">
         </div>

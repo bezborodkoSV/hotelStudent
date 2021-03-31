@@ -7,17 +7,21 @@ import com.studenthoteltest.demo.dao.repository.ResidentsRepository;
 import com.studenthoteltest.demo.dao.repository.RoleRepository;
 import com.studenthoteltest.demo.dao.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mapping.AccessOptions;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.validation.constraints.Null;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -32,6 +36,8 @@ public class UserService implements UserDetailsService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
     private ResidentsRepository residentsRepository;
+    @Autowired
+    private RoomService roomService;
 
 //Resident method
 
@@ -39,19 +45,12 @@ public class UserService implements UserDetailsService {
         return residentsRepository.findAll();
     }
 
-    public List<Residents> ResidentList(Long idMin) {
-        return em.createQuery("SELECT r FROM Residents r WHERE r.id > :paramId", Residents.class)
-                .setParameter("paramId", idMin).getResultList();
+    public List<Residents> residentList(String username) {
+        System.out.println(username);
+        return em.createQuery("SELECT r FROM Residents r WHERE r.users.username =:username", Residents.class)
+                .setParameter("username", username).getResultList();
     }
 
-    public boolean checkResidentsByUser(String name){
-        Users user = userRepository.findByUsername(name);
-        Residents residentFromDb = residentsRepository.findByUsers(user);
-        if (residentFromDb!=null){
-            return false;
-        }
-        return true;
-    }
 
 
     public boolean saveResident(String name,String lastname,String surname,
@@ -87,7 +86,7 @@ public class UserService implements UserDetailsService {
         if (userFromDb!=null){
             return false;
         }
-        user.setRoles(Collections.singleton(new Role(1L, "ROLE_USER")));
+        user.setRoles(Collections.singleton(new Role(5L, "ROLE_UNVERIFIED")));
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         return true;
@@ -115,7 +114,73 @@ public class UserService implements UserDetailsService {
                 .setParameter("paramId", idMin).getResultList();
     }
 
+//methods for resident control
+public List<Residents> studentList() {
+    return em.createQuery("SELECT r FROM Residents r JOIN r.users.roles rl WHERE rl.name= 'ROLE_STUDENT' ", Residents.class)
+            .getResultList();
+}
+
+//check-in and check-out of students
+public boolean moveOutMoveTo(String action, Long residentId, Long numberRoom){
+    Residents residentFromDb = residentsRepository.findById(residentId).get();
+        if (action.equals("moveOut")&&numberRoom==null){
+            residentFromDb.setRooms(null);
+            residentsRepository.save(residentFromDb);
+            return true;
+        }
+
+        if (action.equals("moveTo")){
+            if (!roomService.fullRoom(numberRoom)) {
+                residentFromDb.setRooms(roomService.giveRoom(numberRoom));
+                residentsRepository.save(residentFromDb);
+                return true;
+            }
+        }
+        return false;
+}
 
 
+
+public boolean acceptRejectAccount(String action,Long userId){
+        Users userFromDb = userRepository.findById(userId).get();
+        if (userFromDb!=null){
+//            Role role = roleRepository.findById(1L).get();
+            if (action.equals("accept")) {
+                userFromDb.getRoles().clear();
+                userFromDb.getRoles().addAll(Collections.singleton(new Role(1L,"ROLE_STUDENT")));
+                userRepository.save(userFromDb);
+                return true;
+            }
+            if (action.equals("reject")) {
+                userFromDb.getRoles().clear();
+                userFromDb.getRoles().addAll(Collections.singleton(new Role(3L,"ROLE_GUEST")));
+                userRepository.save(userFromDb);
+                return true;
+            }
+        }
+        return false;
+}
+
+    public List<Users> unverifiedUsers() {
+        return em.createQuery("SELECT u FROM Users u JOIN u.roles ur WHERE ur.name ='ROLE_UNVERIFIED'", Users.class)
+                .getResultList();
+    }
+
+    public List<Users> studentUsers() {
+        return em.createQuery("SELECT u FROM Users u JOIN u.roles ur WHERE ur.name ='ROLE_STUDENT'", Users.class)
+                .getResultList();
+    }
+
+//    public List<Residents> residentsListByNumberRoom(Long numberRoom){
+//        return residentsRepository.findResidentsByRooms_NumberRoom(numberRoom);
+//    }
+
+//    OR r.rooms.floors.numberFloor >: numberF
+//    .setParameter("numberF",numberFloor)
+
+    public List<Residents> residentsListFilterByRoom(Long numberRoom) {
+        return em.createQuery("SELECT r FROM Residents r WHERE r.rooms.numberRoom <:numberR", Residents.class)
+                .setParameter("numberR", numberRoom).getResultList();
+    }
 
 }

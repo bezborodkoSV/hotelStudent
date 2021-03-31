@@ -22,6 +22,10 @@ public class RoomService {
     @Autowired
     private ResidentsRepository residentsRepository;
 
+    public Rooms giveRoom(long numberRoom){
+        Rooms roomFromDb = roomsRepository.findByNumberRoom(numberRoom);
+        return roomFromDb;
+    }
     public List<Rooms> allRooms(){return roomsRepository.findAll();}
 
     public boolean saveRoom(Rooms room, short numberFloor){
@@ -98,6 +102,21 @@ public boolean checkTheNumberOfFreeSeats(){
         roomsRepository.save(room);
     }
         return true;
+}
+
+public boolean presenceOfSuchRoom(long numberRoom){
+        if (roomsRepository.findByNumberRoom(numberRoom) == null){
+            return false;
+        }
+        return true;
+}
+public boolean fullRoom(long numberRoom){
+        int numb = roomsRepository.findByNumberRoom(numberRoom).getNumberOfFreePlacesInTheRoom();
+    System.out.println("dsfcvxasdc   "+numb);
+    if (roomsRepository.findByNumberRoom(numberRoom).getNumberOfFreePlacesInTheRoom()==0){
+        return  true;
+    }
+        return false;
 }
 
 }

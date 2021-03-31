@@ -12,4 +12,5 @@ public interface ResidentsRepository extends JpaRepository<Residents,Long> {
     Residents findByUsers(Users users);
     Residents findByPhoneNumber(String phoneNumber);
     List<Residents> findResidentsByRooms_Id(long roomId);
+    List<Residents> findResidentsByRooms_NumberRoom(long numberRoom);
 }
