@@ -1,12 +1,22 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="th" uri="http://www.springframework.org/tags/form" %>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
-
+    <form th:action="@{controlResidents}" method="get" >
+        <th><!--/*@thymesVar id="faculty" type="actions"*/-->
+            <input type="text" name="facultyForFilter" th:value="${faculty}" class="form-control" placeholder="Факультет"></th></form>
+    <form th:action="@{controlResidents}" method="get" >
+        <th><!--/*@thymesVar id="groupIn" type="actions"*/-->
+            <input type="text" name="groupInForFilter" th:value="${groupIn}" class="form-control" placeholder="Група"></th></form>
+    <form th:action="@{controlResidents}" method="get" >
+        <th><!--/*@thymesVar id="surname" type="actions"*/-->
+            <input type="text" name="surnameForFilter" th:value="${surname}" class="form-control" placeholder="Прізвище"></th>
+    </form>
     <title>Log in with your account</title>
 <%--    <link rel="stylesheet" type="text/css" href="${contextPath}/resources/css/style.css">--%>
 </head>

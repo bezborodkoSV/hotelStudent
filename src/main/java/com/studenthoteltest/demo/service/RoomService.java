@@ -1,6 +1,7 @@
 package com.studenthoteltest.demo.service;
 
 import com.studenthoteltest.demo.dao.model.Floors;
+import com.studenthoteltest.demo.dao.model.Residents;
 import com.studenthoteltest.demo.dao.model.Rooms;
 import com.studenthoteltest.demo.dao.repository.FloorsRepository;
 import com.studenthoteltest.demo.dao.repository.ResidentsRepository;
@@ -118,5 +119,7 @@ public boolean fullRoom(long numberRoom){
     }
         return false;
 }
+
+
 
 }

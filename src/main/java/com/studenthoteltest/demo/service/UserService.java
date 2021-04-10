@@ -18,10 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.validation.constraints.Null;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -129,7 +126,7 @@ public boolean moveOutMoveTo(String action, Long residentId, Long numberRoom){
             return true;
         }
 
-        if (action.equals("moveTo")){
+        if (action.equals("moveTo")&& roomService.presenceOfSuchRoom(numberRoom)){
             if (!roomService.fullRoom(numberRoom)) {
                 residentFromDb.setRooms(roomService.giveRoom(numberRoom));
                 residentsRepository.save(residentFromDb);
@@ -161,26 +158,56 @@ public boolean acceptRejectAccount(String action,Long userId){
         return false;
 }
 
+//   Start filter lists for Jsp admin
+// SOUT oll List for oll unverified Users in Bd
     public List<Users> unverifiedUsers() {
         return em.createQuery("SELECT u FROM Users u JOIN u.roles ur WHERE ur.name ='ROLE_UNVERIFIED'", Users.class)
                 .getResultList();
     }
-
+// oll Student in Bd
     public List<Users> studentUsers() {
         return em.createQuery("SELECT u FROM Users u JOIN u.roles ur WHERE ur.name ='ROLE_STUDENT'", Users.class)
                 .getResultList();
     }
+    // Filter by faculty
+    public List<Users> studentUsersListFilterByFaculty(String faculty){
+        return userRepository.findByResidents_FacultyContaining(faculty);
+    }
+    // Filter by group
+    public List<Users> studentUsersListFilterByGroupIn(String groupIn){
+        return userRepository.findByResidents_GroupInContaining(groupIn);
+    }
+    // Filter by surname
+    public List<Users> studentUsersListFilterBySurname(String surname){
+        return userRepository.findByResidents_SurnameContaining(surname);
+    }
+// Finish filter lists for Jsp admin
 
-//    public List<Residents> residentsListByNumberRoom(Long numberRoom){
-//        return residentsRepository.findResidentsByRooms_NumberRoom(numberRoom);
-//    }
 
-//    OR r.rooms.floors.numberFloor >: numberF
-//    .setParameter("numberF",numberFloor)
 
+//   Start filter lists for Jsp residentControl
+// Filter by number room
     public List<Residents> residentsListFilterByRoom(Long numberRoom) {
-        return em.createQuery("SELECT r FROM Residents r WHERE r.rooms.numberRoom <:numberR", Residents.class)
+        return em.createQuery("SELECT r FROM Residents r WHERE r.rooms.numberRoom =:numberR ", Residents.class)
                 .setParameter("numberR", numberRoom).getResultList();
     }
+// Filter by number dloor
+    public List<Residents> residentsListFilterByFloor(Short numberFloor) {
+        return em.createQuery("SELECT r FROM Residents r WHERE r.rooms.floors.numberFloor =:numberFloor ", Residents.class)
+                .setParameter("numberFloor", numberFloor).getResultList();
+    }
+// Filter by faculty
+    public List<Residents> residentsListFilterByFaculty(String faculty) {
+        return residentsRepository.findResidentsByFacultyContaining(faculty);
+    }
+// Filter by group
+    public List<Residents> residentsListFilterByGroupIn(String groupIn) {
+        return residentsRepository.findResidentsByGroupInContaining(groupIn);
+    }
+// Filter by surname
+    public List<Residents> residentsListFilterBySurname(String surname) {
+        return residentsRepository.findResidentsBySurnameContaining(surname);
+    }
+// Finish filter lists for Jsp residentControl
 
 }

@@ -22,7 +22,6 @@
 
     <h4><a href="/news">Новости (только пользователь)</a></h4>
     <h4><a href="/admin">Пользователи (только админ)</a></h4>
-    <h4><a href="/residentAdd">resident</a></h4>
     <table>
         <thead>
         <th>Номер этажа</th>

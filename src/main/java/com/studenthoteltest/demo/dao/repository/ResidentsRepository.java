@@ -13,4 +13,7 @@ public interface ResidentsRepository extends JpaRepository<Residents,Long> {
     Residents findByPhoneNumber(String phoneNumber);
     List<Residents> findResidentsByRooms_Id(long roomId);
     List<Residents> findResidentsByRooms_NumberRoom(long numberRoom);
+    List<Residents> findResidentsByFacultyContaining(String faculty);
+    List<Residents> findResidentsByGroupInContaining(String groupIn);
+    List<Residents> findResidentsBySurnameContaining(String surname);
 }
