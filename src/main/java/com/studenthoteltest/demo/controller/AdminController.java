@@ -100,7 +100,6 @@ public class AdminController {
         if (surnameForFilter != null) {
             model.addAttribute("allStudent",userService.residentsListFilterBySurname(surnameForFilter));
         }
-//        model.addAttribute("allStudent",userService.residentsListFilterByRoom());
         return "controlResidents";
     }
 
@@ -120,41 +119,5 @@ public class AdminController {
         userService.moveOutMoveTo(action,residentId,numberRoom);
         return "redirect:/controlResidents";
     }
-
-
-
-//    @PostMapping
-//    public String filter(@RequestParam("numberRoom") Long numberRoom, RedirectAttributesModelMap model){
-//        System.out.println("asffdsd  "+ numberRoom);
-//        if (numberRoom==null){
-//            return "redirect:/controlResidents";
-//        }
-////        residentsByNumberRoom);
-////        List<Residents> residentsByNumberRoom = userService.listFindByNumberRoom(numberRoom);
-//        model.addFlashAttribute("allStudent",userService.residentsListFilterByRoom(numberRoom));
-//        return "redirect:/controlResidents";
-//    }
-
-//    @PostMapping("/filter")
-//    public String filter(Long numberRoomForFilter,Model model){
-//        System.out.println("asffdsd  "+ numberRoomForFilter);
-//        if (numberRoomForFilter==null){
-//            return "controlResidents";
-//        }
-//        userService.residentsListFilterByRoom(numberRoomForFilter);
-//        model.addAttribute("allStudent",userService.residentsListFilterByRoom(numberRoomForFilter));
-//        return "controlResidents";
-//    }
-
-
-//    @PostMapping("/filter")
-//    public String controlResidentFilter(String action, Long residentId, Long numberRoom, RedirectAttributes redirectAttributes){
-//        if (!userService.moveOutMoveTo(action, residentId, numberRoom)){
-//            redirectAttributes.addFlashAttribute("roomError","Такої кімнати не існує");
-//            return "redirect:/controlResidents";
-//        }
-//        userService.moveOutMoveTo(action,residentId,numberRoom);
-//        return "redirect:/controlResidents";
-//    }
 
 }

@@ -36,6 +36,16 @@ public class UserService implements UserDetailsService {
     @Autowired
     private RoomService roomService;
 
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Users user = userRepository.findByUsername(username);
+        if(user==null){
+            throw new UsernameNotFoundException("User not found");
+        }
+        return user;
+    }
+
 //Resident method
 
     public List<Residents> allResidents() {
@@ -68,14 +78,7 @@ public class UserService implements UserDetailsService {
 
 
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Users user = userRepository.findByUsername(username);
-        if(user==null){
-            throw new UsernameNotFoundException("User not found");
-        }
-        return user;
-    }
+
 
 
     public boolean saveUser(Users user){

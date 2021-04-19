@@ -1,26 +1,18 @@
 package com.studenthoteltest.demo.controller;
 
-import com.studenthoteltest.demo.dao.model.Rooms;
 import com.studenthoteltest.demo.service.ApplicationsForAccommodationService;
 import com.studenthoteltest.demo.service.FloorsService;
 import com.studenthoteltest.demo.service.RoomService;
 import com.studenthoteltest.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
-import java.util.List;
 
-//@RestController
-@org.springframework.stereotype.Controller
-public class Controller {
+@Controller
+public class ControllerFirst {
     @Autowired
     private FloorsService floorsService;
     @Autowired
